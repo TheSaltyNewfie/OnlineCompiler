@@ -159,8 +159,11 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 
-#Compiled binaries and C++ files
+#Misc
 *.cpp
 *.c
 *.hpp
 *.h
+test.*
+c_main
+!exampleCode/*
