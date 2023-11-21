@@ -1,0 +1,28 @@
+<html>
+<head>
+    <title>Simple Ace Editor</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js" type="text/javascript" charset="utf-8"></script>
+    <style>
+        #editor {
+            height: 400px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="editor"></div>
+    <script>
+        var editor = ace.edit("editor");
+        editor.setTheme("ace/theme/monokai");
+        editor.session.setMode("ace/mode/c_cpp");
+                 
+        editor.setOptions({
+            enableBasicAutocompletion: true,
+            enableLiveAutocompletion: true,
+            enableSnippets: true,
+            highlightActiveLine: true,
+            showPrintMargin: false
+        });
+    </script>
+</body>
+</html>
