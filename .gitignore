@@ -164,6 +164,7 @@ cython_debug/
 *.c
 *.hpp
 *.h
+*.ppy
 test.*
 c_main
 !exampleCode/*
