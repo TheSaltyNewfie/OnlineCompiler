@@ -11,7 +11,7 @@ class Code:
         return await ui.run_javascript('editor.getValue()')
 
     def run_code(self):
-        result = subprocess.run(["./workdir/c_main"], stdout=subprocess.PIPE, text=True)
+        result = subprocess.run(["./src/workdir/c_main"], stdout=subprocess.PIPE, text=True)
         self.push(result.stdout)
         self.push(f"returned {result.returncode}")
 
@@ -22,19 +22,19 @@ class Code:
         match lang:
             # C++ Needs to be compiled, so we compile then run
             case "c_cpp":
-                with open('workdir/c_onlinecompile.cpp', "w+") as file:
+                with open('src/workdir/c_onlinecompile.cpp', "w+") as file:
                     code_result = await Code.get_code()
                     file.write(code_result)
-                result = subprocess.run(['g++', 'workdir/c_onlinecompile.cpp', '-o', 'workdir/c_main'], stderr=subprocess.PIPE, stdout=subprocess.PIPE, text=True)
+                result = subprocess.run(['g++', 'src/workdir/c_onlinecompile.cpp', '-o', 'src/workdir/c_main'], stderr=subprocess.PIPE, stdout=subprocess.PIPE, text=True)
                 self.push(f"{result.stderr} || {result.stdout}")
                 Code.run_code(self)
 
             # Python only needs to be interpreted, so we wont compile this time.
             case "python":
-                with open('workdir/python_onlinecompile.ppy', "w+") as file:
+                with open('src/workdir/python_onlinecompile.ppy', "w+") as file:
                     code_result = await Code.get_code()
                     file.write(code_result)
-                result = subprocess.run(['python3', 'workdir/python_onlinecompile.ppy'],stdout=subprocess.PIPE, text=True)
+                result = subprocess.run(['python3', 'src/workdir/python_onlinecompile.ppy'],stdout=subprocess.PIPE, text=True)
                 self.push(result.stdout)
 
     '''
@@ -64,8 +64,14 @@ class Editor:
         self.lang = lang
 
     def load_editor(self):
-        codeeditor = open('codeeditor.html', 'r+').read()
+        codeeditor = open('src/codeeditor.html', 'r+').read()
         ui.add_body_html(codeeditor)
 
     async def set_lang_editor(self, new_lang):
-        await ui.run_javascript(f'editor.session.setMode("ace/mode/{new_lang}")')
+        try:
+            await ui.run_javascript(f'editor.session.setMode("ace/mode/{new_lang}")')
+        except TimeoutError:
+            print("Timeout Error but the JS doesnt return anything")
+
+if __name__ == "__main__":
+    print("This is not a executable :)")
