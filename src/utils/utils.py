@@ -48,15 +48,21 @@ class Code:
         Code.run_code(self.output)
     '''
 
-class FileStructure:
+class Files:
     def __init__(self, path: str):
         self.path = path
 
-    def get_file_structure():
-        pass
-
-    def format_file_structure():
-        pass
+    def cache_file(self, code:str, lang:str):
+        match lang:
+            case "c_cpp":
+                with open('src/workdir/cache/c_cache.cache') as file:
+                    file.write(code)
+                    ui.notfiy("Wrote to cache for C++ code")
+            case "python":
+                with open('src/workdir/cache/python_cache.cache') as file:
+                    file.write(code)
+                    ui.notify("Wrote to cache for Python code")
+        
 
 class Editor:
 
